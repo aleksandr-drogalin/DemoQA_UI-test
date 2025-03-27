@@ -1,35 +1,39 @@
 package com.demoqa;
 
 import com.demoqa.model.MainPage;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.demoqa.model.PracticePage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import org.openqa.selenium.WebDriver;
+import java.util.stream.Stream;
 
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class PracticeFormTest
-{
-    private static WebDriver driver;
-    private final String CHROME_BROWSER = "chrome";
-    private final String FIREFOX_BROWSER = "firefox";
+public class PracticeFormTest extends BaseTest {
 
-    @BeforeEach
-    public void setUp() {
-        driver = Browser.selectBrowser(CHROME_BROWSER);
-        driver.get("https://demoqa.com/");
+    //параметризация через метод
+    public static Stream<Arguments> isTestData() {
+        return Stream.of(
+                arguments("Alexander", "Pushkin"),
+                arguments("Александр", "Пушкин")
+        );
     }
 
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-    }
-
-    @Test
-    @DisplayName("проверка нажатия кнопки Forms")
-    public void checkClickOnButtonForms() {
+    @ParameterizedTest
+    @DisplayName("Заполнение формы Practice Form")
+    @MethodSource("isTestData")
+    public void checkClickOnButtonForms(String firstName, String lastName) {
+        //Arrange
         MainPage mainPage = new MainPage(driver);
+        PracticePage practicePage = new PracticePage(driver);
         mainPage.clickOnButtonForms();
+        practicePage.clickOnButtonPracticeForm();
+
+        //Act
+        practicePage.fillingFieldFirstName(firstName);
+        practicePage.fillingFieldLastName(lastName);
     }
 }
