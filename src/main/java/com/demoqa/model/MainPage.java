@@ -18,10 +18,10 @@ public class MainPage {
     private By buttonForms = By.xpath(".//h5[text()='Forms']");
 
     //нажать кнопку Forms
-    @Step("выбрать раздел Forms на главной странице")
+    @Step("выбор раздела Forms на главной странице")
     public void clickOnButtonForms() {
-        WebElement element = driver.findElement(buttonForms);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();",element);
-        element.click();
+        WebElement elementButtonForms = driver.findElement(buttonForms);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", elementButtonForms);
+        elementButtonForms.click();
     }
 }
